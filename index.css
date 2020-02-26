@@ -1,0 +1,26 @@
+body {
+  display: grid;
+  justify-content: center;
+  margin: 20px;
+}
+
+#analytics-main {
+  display: grid;
+  grid-template-rows: auto;
+  grid-row-gap: 15px;
+}
+
+.section {
+  display: grid;
+  grid-template-rows: auto;
+  grid-row-gap: 8px;
+}
+
+label {
+  padding-left: 10px;
+}
+
+.month-label {
+  font-weight: bold;
+  font-size: 20px;
+}
