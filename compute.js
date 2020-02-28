@@ -12,7 +12,7 @@ function convertToRecordsFromFile(filePath) {
   let fields = records.splice(0,1)[0].split(',');
 
   fields = fields.map((field) => {
-    return field.toLocaleLowerCase().replace(' ','_');
+    return field.toLowerCase().replace(' ','_');
   });
 
   records = records.map((recordString) => {
