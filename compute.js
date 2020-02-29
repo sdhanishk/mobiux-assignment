@@ -19,6 +19,10 @@ function convertToRecordsFromFile(filePath) {
 
     const recordDataArray = recordString.split(',');
 
+    if (recordDataArray.length < 5){
+      return;
+    }
+
     let record = {};
 
     for(let recordDataIndex = 0; recordDataIndex < recordDataArray.length; recordDataIndex++) {
@@ -29,7 +33,7 @@ function convertToRecordsFromFile(filePath) {
 
     return record;
     
-  });
+  }).filter((record) => typeof record !== 'undefined');
 
   return records;
 
@@ -59,10 +63,6 @@ function getUniqueMonthsFromRecords(records, defaultValue) {
 
   for (let record of records) {
 
-    if (Object.keys(record).length < 5) {
-      continue;
-    }
-
     const dateObject = getDateObjectFromDateString(record.date);
 
     const monthAndYearString = getMonthYearStringFromDateObject(dateObject);
@@ -88,10 +88,6 @@ function getRecordsGroupedByMonth(records) {
 
   for (let record of records) {
 
-    if (Object.keys(record).length < 5) {
-      continue;
-    }
-
     const dateObject = getDateObjectFromDateString(record.date);
 
     const monthYearString = getMonthYearStringFromDateObject(dateObject);
@@ -115,10 +111,6 @@ function getRecordsGroupedByDate(records, monthAndYear) {
   let recordsGroupedByUniqueDate = {};
 
   for (let record of records) {
-
-    if (Object.keys(record).length < 5) {
-      continue;
-    }
 
     let date = record.date;
 
@@ -217,11 +209,6 @@ function getTotalSalesOfStore(records) {
   let totalSales = 0;
 
   for (let record of records) {
-
-    if (Object.keys(record).length < 5) {
-      continue;
-    }
-
     totalSales += +record.total_price;
   }
 
@@ -234,10 +221,6 @@ function getMonthWiseSalesTotalOfStore(records) {
   const monthWiseSalesTotal = getUniqueMonthsFromRecords(records);;
 
   for (let record of records) {
-
-    if (Object.keys(record).length < 5) {
-      continue;
-    }
 
     const dateObject = getDateObjectFromDateString(record.date);
 
