@@ -24,7 +24,7 @@ for (let month of months) {
 
     monthLabel.innerHTML = month;
 
-    valueLabel.innerHTML = monthWiseSalesData[month];
+    valueLabel.innerHTML = monthWiseSalesData[month].totalSalesOfMonth;
 
     monthWiseSalesMonthSection.append(monthLabel);
 
@@ -52,7 +52,7 @@ for (let month of months) {
 
     monthLabel.innerHTML = month;
 
-    valueLabel.innerHTML = itemsDataForEachMonth[month].maximumSoldItemName;
+    valueLabel.innerHTML = itemsDataForEachMonth[month].popularItem.name;
 
     popularItemSection.append(monthLabel);
 
@@ -64,7 +64,7 @@ for (let month of months) {
 
     minimumLabel.innerHTML = 'Minimum orders';
 
-    minimumValueLabel.innerHTML = itemsDataForEachMonth[month].metadataOfPopularItem.minimumOrdersPerMonth;
+    minimumValueLabel.innerHTML = itemsDataForEachMonth[month].popularItem.minimumOrders;
 
     popularItemSection.append(minimumLabel);
 
@@ -76,7 +76,7 @@ for (let month of months) {
 
     maximumLabel.innerHTML = 'Maximum orders';
 
-    maximumValueLabel.innerHTML = itemsDataForEachMonth[month].metadataOfPopularItem.maximumOrdersPerMonth;
+    maximumValueLabel.innerHTML = itemsDataForEachMonth[month].popularItem.maximumOrders;
 
     popularItemSection.append(maximumLabel);
 
@@ -88,7 +88,7 @@ for (let month of months) {
 
     averageLabel.innerHTML = 'Average orders';
 
-    averageValueLabel.innerHTML = itemsDataForEachMonth[month].metadataOfPopularItem.averageOrdersPerMonth;
+    averageValueLabel.innerHTML = itemsDataForEachMonth[month].popularItem.averageOrders;
 
     popularItemSection.append(averageLabel);
 
@@ -134,10 +134,10 @@ function renderDetails(data) {
 
 $('#total-sales').html(data.totalSales);
 
-renderMonthWiseSales(data.monthWiseSalesTotal);
+renderMonthWiseSales(data.monthWiseSalesData);
 
-renderPopularItemDetails(data.itemsDataForEachMonth);
+renderPopularItemDetails(data.monthWiseSalesData);
 
-renderMostRevenueGeneratedItemDetails(data.itemsDataForEachMonth);
+renderMostRevenueGeneratedItemDetails(data.monthWiseSalesData);
 
 };
