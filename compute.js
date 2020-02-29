@@ -204,7 +204,7 @@ function getMinMaxAndAvgOfItem(itemName, records, monthAndYear, totalItems) {
 
 }
 
-function getTotalSalesOfStore(records) {
+function getTotalSalesOfRecord(records) {
 
   let totalSales = 0;
 
@@ -216,33 +216,15 @@ function getTotalSalesOfStore(records) {
 
 }
 
-function getMonthWiseSalesTotalOfStore(records) {
-
-  const monthWiseSalesTotal = getUniqueMonthsFromRecords(records);;
-
-  for (let record of records) {
-
-    const dateObject = getDateObjectFromDateString(record.date);
-
-    const monthYearString = getMonthYearStringFromDateObject(dateObject);
-
-    if(monthWiseSalesTotal[monthYearString] === null) {
-      monthWiseSalesTotal[monthYearString] = +record.total_price;
-    } else {
-      monthWiseSalesTotal[monthYearString] += +record.total_price;
-    }
-
-  }
-
-  return monthWiseSalesTotal;
-
-}
-
 function getItemsDataForEachMonth(records) {
 
   let recordsOfUniqueMonth = getRecordsGroupedByMonth(records);
 
   for (let month of Object.keys(recordsOfUniqueMonth)) {
+
+    const totalSalesOfMonth = getTotalSalesOfRecord(recordsOfUniqueMonth[month].records);
+
+    recordsOfUniqueMonth[month].totalSalesOfMonth = totalSalesOfMonth;
 
     const items = {};
 
@@ -301,16 +283,13 @@ const filePath = './sales-data.txt';
 
 const records = convertToRecordsFromFile(filePath);
 
-const totalSales = getTotalSalesOfStore(records);
+const totalSales = getTotalSalesOfRecord(records);
 
-const monthWiseSalesTotal = getMonthWiseSalesTotalOfStore(records);
-
-const itemsDataForEachMonth = getItemsDataForEachMonth(records);
+const monthWiseSalesData = getItemsDataForEachMonth(records);
 
 const responseData = JSON.stringify({
   totalSales,
-  monthWiseSalesTotal,
-  itemsDataForEachMonth
+  monthWiseSalesData
 });
 
 app.use(function(req, res, next) {
