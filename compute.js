@@ -188,11 +188,11 @@ function getMinMaxAndAvgOfItem(itemName, records, monthAndYear, totalItems) {
         metadataOfItem.minimumOrders = itemOrderQuantityPerDate[date][item];
       }
   
-      if (itemOrderQuantityPerDate[date][item] > metadataOfItem.maximumOrdersPerMonth) {
+      if (itemOrderQuantityPerDate[date][item] > metadataOfItem.maximumOrders) {
         metadataOfItem.maximumOrders = itemOrderQuantityPerDate[date][item];
       }
   
-      if (itemOrderQuantityPerDate[date][item] < metadataOfItem.minimumOrdersPerMonth) {
+      if (itemOrderQuantityPerDate[date][item] < metadataOfItem.minimumOrders) {
         metadataOfItem.minimumOrders = itemOrderQuantityPerDate[date][item];
       }
 
