@@ -3,7 +3,13 @@ fetch('http://localhost:3000')
 return response.json();
 })
 .then((data) => {
-renderDetails(data);
+    try {
+        renderDetails(data);
+    } catch (error) {
+        throw error;
+    }
+}).catch((error) => {
+alert('Please check if the server is running');
 });
 
 function renderMonthWiseSales(monthWiseSalesData) {
