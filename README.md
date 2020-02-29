@@ -21,20 +21,16 @@ Open `index.html` to have a simple view at the computed data.
 ```
 {
   totalSales: number,
-  monthWiseSalesTotal: {
-    [month1]: number,
-    [month2]: number,
-    ...
-  },
-  itemsDataForEachMonth: {
+  monthWiseSalesData: {
     [month1]: {
-      maximumSoldItemName: string,
-      maximumRevenueGeneratedItemName: string,
-      metadataOfPopularItem: {
-        minimumOrdersPerMonth: number,
-        maximumOrdersPerMonth: number,
-        averageOrdersPerMonth: number
-      }
+      totalSalesOfMonth: number,
+      popularItem: {
+        name: string,
+        minimumOrders: number,
+        maximumOrders: number,
+        averageOrders: number
+      },
+      maximumRevenueGeneratedItemName: string
     },
     ...
   }
