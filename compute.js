@@ -169,9 +169,9 @@ function getMinMaxAndAvgOfItem(itemName, records, monthAndYear, totalItems) {
   const dates = Object.keys(itemOrderQuantityPerDate);
 
   const metadataOfItem = {
-    minimumOrdersPerMonth: null,
-    maximumOrdersPerMonth: 0,
-    averageOrdersPerMonth: (totalItems / dates.length).toFixed(2)
+    minimumOrders: null,
+    maximumOrders: 0,
+    averageOrders: (totalItems / dates.length).toFixed(2)
   };
 
   for (let date of dates) {
@@ -184,16 +184,16 @@ function getMinMaxAndAvgOfItem(itemName, records, monthAndYear, totalItems) {
         continue;
       }
 
-      if (metadataOfItem.minimumOrdersPerMonth === null) {
-        metadataOfItem.minimumOrdersPerMonth = itemOrderQuantityPerDate[date][item];
+      if (metadataOfItem.minimumOrders === null) {
+        metadataOfItem.minimumOrders = itemOrderQuantityPerDate[date][item];
       }
   
       if (itemOrderQuantityPerDate[date][item] > metadataOfItem.maximumOrdersPerMonth) {
-        metadataOfItem.maximumOrdersPerMonth = itemOrderQuantityPerDate[date][item];
+        metadataOfItem.maximumOrders = itemOrderQuantityPerDate[date][item];
       }
   
       if (itemOrderQuantityPerDate[date][item] < metadataOfItem.minimumOrdersPerMonth) {
-        metadataOfItem.minimumOrdersPerMonth = itemOrderQuantityPerDate[date][item];
+        metadataOfItem.minimumOrders = itemOrderQuantityPerDate[date][item];
       }
 
     }
@@ -267,9 +267,12 @@ function getItemsDataForEachMonth(records) {
 
     const metadataOfPopularItem = getMinMaxAndAvgOfItem(maximumSoldItemName, records, month, totalQuantity);
 
-    recordsOfUniqueMonth[month].maximumSoldItemName = maximumSoldItemName;
+    recordsOfUniqueMonth[month].popularItem = {
+      name: maximumSoldItemName,
+      ...metadataOfPopularItem
+    };
+
     recordsOfUniqueMonth[month].maximumRevenueGeneratedItemName = maximumRevenueGeneratedItemName;
-    recordsOfUniqueMonth[month].metadataOfPopularItem = metadataOfPopularItem;
     delete(recordsOfUniqueMonth[month].items);
     delete(recordsOfUniqueMonth[month].records);
 
