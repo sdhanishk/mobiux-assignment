@@ -7,32 +7,32 @@ function convertToRecordsFromFile(filePath) {
 
   const fileData = fs.readFileSync(filePath);
 
-  let records = fileData.toString().replace(/\r/g,'').split('\n');
+  let records = fileData.toString().replace(/\r/g, '').split('\n');
 
-  let fields = records.splice(0,1)[0].split(',');
+  let fields = records.splice(0, 1)[0].split(',');
 
   fields = fields.map((field) => {
-    return field.toLowerCase().replace(' ','_');
+    return field.toLowerCase().replace(' ', '_');
   });
 
   records = records.map((recordString) => {
 
     const recordDataArray = recordString.split(',');
 
-    if (recordDataArray.length < 5){
+    if (recordDataArray.length < 5) {
       return;
     }
 
     let record = {};
 
-    for(let recordDataIndex = 0; recordDataIndex < recordDataArray.length; recordDataIndex++) {
+    for (let recordDataIndex = 0; recordDataIndex < recordDataArray.length; recordDataIndex++) {
 
       record[fields[recordDataIndex]] = recordDataArray[recordDataIndex];
 
     }
 
     return record;
-    
+
   }).filter((record) => typeof record !== 'undefined');
 
   return records;
@@ -67,9 +67,9 @@ function getUniqueMonthsFromRecords(records, defaultValue) {
 
     const monthAndYearString = getMonthYearStringFromDateObject(dateObject);
 
-    if(typeof uniqueMonths[monthAndYearString] === 'undefined') {
+    if (typeof uniqueMonths[monthAndYearString] === 'undefined') {
 
-      if(typeof defaultValue === 'undefined') {
+      if (typeof defaultValue === 'undefined') {
         defaultValue = null;
       }
 
@@ -92,7 +92,7 @@ function getRecordsGroupedByMonth(records) {
 
     const monthYearString = getMonthYearStringFromDateObject(dateObject);
 
-    if(recordsGroupedByUniqueMonth[monthYearString] === null) {
+    if (recordsGroupedByUniqueMonth[monthYearString] === null) {
       recordsGroupedByUniqueMonth[monthYearString] = {
         records: [record]
       };
@@ -118,7 +118,7 @@ function getRecordsGroupedByDate(records, monthAndYear) {
       continue;
     }
 
-    if(typeof recordsGroupedByUniqueDate[record.date] === 'undefined') {
+    if (typeof recordsGroupedByUniqueDate[record.date] === 'undefined') {
       recordsGroupedByUniqueDate[record.date] = {
         records: [record]
       };
@@ -143,18 +143,18 @@ function getItemOrderQuantityPerDate(records, monthAndYear) {
     const items = {};
 
     for (let record of recordsGroupedByUniqueDate[date].records) {
-  
-      if(typeof items[record.sku] === 'undefined') {
+
+      if (typeof items[record.sku] === 'undefined') {
         items[record.sku] = +record.quantity;
       } else {
         items[record.sku] += +record.quantity;
       }
-  
+
     }
 
     recordsGroupedByUniqueDate[date] = items;
 
-    delete(recordsGroupedByUniqueDate[date].records);
+    delete (recordsGroupedByUniqueDate[date].records);
 
   }
 
@@ -187,11 +187,11 @@ function getMinMaxAndAvgOfItem(itemName, records, monthAndYear, totalItems) {
       if (metadataOfItem.minimumOrders === null) {
         metadataOfItem.minimumOrders = itemOrderQuantityPerDate[date][item];
       }
-  
+
       if (itemOrderQuantityPerDate[date][item] > metadataOfItem.maximumOrders) {
         metadataOfItem.maximumOrders = itemOrderQuantityPerDate[date][item];
       }
-  
+
       if (itemOrderQuantityPerDate[date][item] < metadataOfItem.minimumOrders) {
         metadataOfItem.minimumOrders = itemOrderQuantityPerDate[date][item];
       }
@@ -228,13 +228,13 @@ function getItemsDataForEachMonth(records) {
 
     const items = {};
 
-    for(let record of recordsOfUniqueMonth[month].records) {
+    for (let record of recordsOfUniqueMonth[month].records) {
 
       if (typeof items[record.sku] === 'undefined') {
         items[record.sku] = {
           quantity: +record.quantity,
           revenue: +record.total_price
-        }; 
+        };
       } else {
         items[record.sku].quantity += +record.quantity;
         items[record.sku].revenue += +record.total_price;
@@ -251,12 +251,12 @@ function getItemsDataForEachMonth(records) {
 
     for (let itemName of Object.keys(recordsOfUniqueMonth[month].items)) {
 
-      if(recordsOfUniqueMonth[month].items[itemName].quantity > maximumSoldItemCount) {
+      if (recordsOfUniqueMonth[month].items[itemName].quantity > maximumSoldItemCount) {
         maximumSoldItemName = itemName;
         maximumSoldItemCount = recordsOfUniqueMonth[month].items[itemName].quantity;
       }
 
-      if(recordsOfUniqueMonth[month].items[itemName].revenue > maximumRevenueGeneratedItemRevenue) {
+      if (recordsOfUniqueMonth[month].items[itemName].revenue > maximumRevenueGeneratedItemRevenue) {
         maximumRevenueGeneratedItemName = itemName;
         maximumRevenueGeneratedItemRevenue = recordsOfUniqueMonth[month].items[itemName].revenue;
       }
@@ -273,8 +273,8 @@ function getItemsDataForEachMonth(records) {
     };
 
     recordsOfUniqueMonth[month].maximumRevenueGeneratedItemName = maximumRevenueGeneratedItemName;
-    delete(recordsOfUniqueMonth[month].items);
-    delete(recordsOfUniqueMonth[month].records);
+    delete (recordsOfUniqueMonth[month].items);
+    delete (recordsOfUniqueMonth[month].records);
 
   }
 
@@ -295,7 +295,7 @@ const responseData = JSON.stringify({
   monthWiseSalesData
 });
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", null);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
