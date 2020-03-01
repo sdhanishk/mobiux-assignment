@@ -41,7 +41,15 @@ function convertToRecordsFromFile(filePath) {
 
 function getDateObjectFromDateString(dateString) {
 
+  if (typeof dateString !== 'string') {
+    throw new Error('STRING_REQUIRED');
+  }
+
   let dateMonthYear = dateString.split('-');
+
+  if (dateMonthYear.length < 3) {
+    throw new Error('INVALID_DATE_STRING');
+  }
 
   return {
     year: dateMonthYear[0],
@@ -294,6 +302,10 @@ const responseData = JSON.stringify({
   totalSales,
   monthWiseSalesData
 });
+
+module.exports = {
+  getDateObjectFromDateString
+};
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", null);
